@@ -60,6 +60,7 @@
 
 				set conn = Server.CreateObject("ADODB.Connection")
 				conn.open(db_connection)
+				
 				set rs=conn.execute("viewproductlist1")
                 dim x
 				do until rs.EOF

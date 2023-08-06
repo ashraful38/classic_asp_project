@@ -24,34 +24,42 @@
 </head>
 <body>
     <h1>Product Purchase List Search</h1>
-    <form method="GET" action="psearch.asp">
+    <form method="GET" action="">
         Start Date: <input type="date" name="start_date">
         End Date: <input type="date" name="end_date">
-        <input type="submit" value="Search">
+        <input type="submit" name="submit" value="Search">
     </form>
 	<br>
 
     <% 
     ' Check if the form has been submitted
-    If Request.ServerVariables("REQUEST_METHOD") = "GET" Then
+If Request.QueryString("submit") <> "" then
         Dim start_date, end_date
         start_date = Request.QueryString("start_date")
         end_date = Request.QueryString("end_date")
 
         ' Connect to MySQL database
        ' Connect to MySQL server
-		Dim db_connection, conn, rs
+		Dim db_connection, conn
 		db_connection = "Provider=MSDASQL; DRIVER={SQL Server}; SERVER=ASHRAFUL_MIS; DATABASE=product1; Trusted_Connection=yes;"
 		Set conn = Server.CreateObject("ADODB.Connection")
 		conn.open(db_connection)
 
-        ' Prepare the SQL query
-        Dim sql
-        sql = "SELECT * FROM Purchase WHERE Date BETWEEN '" & start_date & "' AND '" & end_date & "';"
-	
+            ' Execute the stored procedure
+        Dim cmd
+        Set cmd = Server.CreateObject("ADODB.Command")
+        cmd.ActiveConnection = conn
+        cmd.CommandType = 4 ' adCmdStoredProc
+
+        ' Replace "sp_search_product_purchase_by_date" with the name of your stored procedure
+        cmd.CommandText = "sp_search_purchase_by_date"
+        cmd.Parameters.Append cmd.CreateParameter("@StartDateParam", 129, 1, -1, start_date)
+        cmd.Parameters.Append cmd.CreateParameter("@EndDateParam", 129, 1, -1, end_date)
+
 
         ' Execute the query
-        Set rs = conn.Execute(sql)
+        Dim rs
+        Set rs = cmd.Execute
 
         ' Display the results
         If rs.EOF Then
@@ -62,8 +70,8 @@
             Do While Not rs.EOF
                 Response.Write("<tr>")
                 Response.Write("<td>" & rs("PurchaseId") & "</td>")
-                Response.Write("<td>" & rs("ProductId") & "</td>")
-				Response.Write("<td>" & rs("SupplierId") & "</td>")
+                Response.Write("<td>" & rs("ProductName") & "</td>")
+				Response.Write("<td>" & rs("SupplierName") & "</td>")
 				Response.Write("<td>" & rs("Color") & "</td>")
 				Response.Write("<td>" & rs("Qunatity") & "</td>")
 				Response.Write("<td>" & rs("Date") & "</td>")
@@ -79,6 +87,6 @@
         conn.Close
         Set conn = Nothing
     End If
-    %>
+ %>
 </body>
 </html>
