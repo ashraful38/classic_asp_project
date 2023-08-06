@@ -229,6 +229,7 @@ If Request.Form("submit") <> "" then
 			   SupplierName = Trim(request.form("SupplierSelect"))
 			   color = Trim(request.form("color"))
 			   Quantity = Trim(request.form("quantity"))
+			   pDate = Trim(request.form("pdate"))
 				
             		
 			
@@ -236,7 +237,7 @@ If Request.Form("submit") <> "" then
 				  Dim xmlData
 				  Set xmlData = Server.CreateObject("MSXML2.DOMDocument")
 				  
-				  xmlData.loadXML("<purchases><purchase><ProductId>" & ProductName & "</ProductId><SupplierId>" & SupplierName &"</SupplierId><Color>" & color &"</Color><Qunatity>" & Quantity & "</Qunatity></purchase></purchases>")
+				  xmlData.loadXML("<purchases><purchase><ProductId>" & ProductName & "</ProductId><SupplierId>" & SupplierName &"</SupplierId><Color>" & color &"</Color><Qunatity>" & Quantity & "</Qunatity><Date>" & pDate & "</Date></purchase></purchases>")
 			
 			
                 dim xmlParameter
@@ -247,7 +248,7 @@ If Request.Form("submit") <> "" then
 			  Dim cmd
 			  Set cmd = Server.CreateObject("ADODB.Command")
 			  cmd.ActiveConnection = conn
-			  cmd.CommandText = "InsertPurchase"
+			  cmd.CommandText = "InsertPurchase1"
 			  'cmd.CommandType = adCmdStoredProc
 			  cmd.CommandType = 4 ' adCmdStoredProc
 			  
@@ -257,7 +258,7 @@ If Request.Form("submit") <> "" then
 				cmd.Execute
 
 END IF
-set rs=conn.execute("ViewPurchaseGrid2")
+set rs=conn.execute("ViewPurchaseGrid3")
 %>
 
 
@@ -379,6 +380,11 @@ set rs=conn.execute("ViewPurchaseGrid2")
 					<td><input name="quantity" id="quantity"></td>
 				</tr>
 				
+				<tr>
+					<td>Date:</td>
+					<td><input type="date" name="pdate" id="pdate"></td>
+				</tr>
+				
 			</table>
 			<br><br>
 			<!--<input type="submit" name="submit" value="Add New"> -->
@@ -412,6 +418,8 @@ set rs=conn.execute("ViewPurchaseGrid2")
 							<th>SupplierName</th>
 							<th>Color</th>
 							<th>Quantity</th>
+							<th>Date</th>
+							
 							
 						</tr>
 						
@@ -440,6 +448,7 @@ set rs=conn.execute("ViewPurchaseGrid2")
 				<td>SupplierName</td>
 				<td>Color</td>
 				<td>Quantity</td>
+				<td>Date</td>
 				
 			</tr>
 				<%
@@ -471,6 +480,7 @@ set rs=conn.execute("ViewPurchaseGrid2")
 		const SupplierName = SupplierSelect.options[SupplierSelect.selectedIndex].text;
 		const Color = document.getElementById("color").value;
 		const Quantity = document.getElementById("quantity").value;
+		const Date = document.getElementById("pdate").value;
 		
 		const table = document.getElementById("productTable");
 		const newRow = table.insertRow(-1);
@@ -480,6 +490,7 @@ set rs=conn.execute("ViewPurchaseGrid2")
 		const cell4 = newRow.insertCell(3);
 		const cell5 = newRow.insertCell(4);
 		const cell6 = newRow.insertCell(5);
+		const cell7 = newRow.insertCell(6);
 		
 		
 		cell1.innerHTML = ProductId;
@@ -488,6 +499,7 @@ set rs=conn.execute("ViewPurchaseGrid2")
 		cell4.innerHTML = SupplierName;
 		cell5.innerHTML = Color;
 		cell6.innerHTML = Quantity;
+		cell7.innerHTML = Date;
 		
 
 		
