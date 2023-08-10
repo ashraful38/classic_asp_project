@@ -66,7 +66,7 @@ If Request.QueryString("submit") <> "" then
             Response.Write("<p>No purchases found between the specified dates.</p>")
         Else
             Response.Write("<table>")
-            Response.Write("<tr><th>PurchaseId</th><th>ProductId</th><th>SupplierId</th><th>Color</th><th>Quantity</th><th>Purchase Date</th></tr>")
+            Response.Write("<tr><th>PurchaseId</th><th>ProductName</th><th>SupplierName</th><th>Color</th><th>Quantity</th><th>Purchase Date</th></tr>")
             Do While Not rs.EOF
                 Response.Write("<tr>")
                 Response.Write("<td>" & rs("PurchaseId") & "</td>")

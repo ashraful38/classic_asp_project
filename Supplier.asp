@@ -30,7 +30,7 @@
 			<li><a class="active" href="Home.asp">Home</a></li>
 			<li><a href="productText1.asp">Product</a></li>
 			<li><a href="Supplier.asp">Supplier</a></li>
-			<li><a href="purchase.asp">Purchase</a></li>
+			<li><a href="purchase1.asp">Purchase</a></li>
 	    </ul>
 	</div>
 	<div>
@@ -78,17 +78,17 @@
 			conn.open(db_connection)
 			
 			
-    if not Session("loginIn")= True then
-         Response.redirect "Login1.asp"	
-	end if
-	
-	If Request.Form("submit12") <> "" then
-      Session("loginIn")= False
-	  Session.Abandon
-	  Response.redirect "Login1.asp"	
-	  
-   
-     END IF
+			if not Session("loginIn")= True then
+				 Response.redirect "Login1.asp"	
+			end if
+			
+			If Request.Form("submit12") <> "" then
+			  Session("loginIn")= False
+			  Session.Abandon
+			  Response.redirect "Login1.asp"	
+			  
+		   
+			 END IF
 	
 	
 	   If Request.Form("submit") <> "" then
@@ -100,12 +100,35 @@
                 SupplierName = Trim(request.form("SupplierName"))
 			    SupplierAddress = Trim(request.form("SupplierAddress"))
 				
-				conn.execute  "INSERT INTO Suppliers VALUES('" & SupplierName & "', '" & SupplierAddress & "')"
-				 If Err.Number <> 0 Then
-					Response.Write("Error: " & Err.Description)
-				Else
-					Response.Write("Data has been submitted.")
-				End If
+				' Create XML data
+				  Dim xmlData
+				  Set xmlData = Server.CreateObject("MSXML2.DOMDocument")
+				  xmlData.loadXML("<Suppliers><supplier><supplierName>" & SupplierName & "</supplierName><SupplierAddress>" &  SupplierAddress & "</SupplierAddress></supplier></Suppliers>")
+			
+			
+                dim xmlParameter
+				xmlParameter = xmlData.xml
+				
+				' Prepare the SQL command to call the stored procedure
+				  Dim cmd
+				  Set cmd = Server.CreateObject("ADODB.Command")
+				  cmd.ActiveConnection = conn
+				  cmd.CommandText = "InsertSuppliers2"
+				  'cmd.CommandType = adCmdStoredProc
+				  cmd.CommandType = 4 ' adCmdStoredProc
+				  
+				  cmd.Parameters.Append cmd.CreateParameter("@XmlData", 129, 1, -1, xmlParameter)
+				  
+				  
+				  cmd.Execute
+
+				
+				' conn.execute  "INSERT INTO Suppliers VALUES('" & SupplierName & "', '" & SupplierAddress & "')"
+				 ' If Err.Number <> 0 Then
+					' Response.Write("Error: " & Err.Description)
+				' Else
+					' Response.Write("Data has been submitted.")
+				' End If
 			     
 
 				'On Error Resume Next

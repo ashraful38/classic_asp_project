@@ -92,7 +92,7 @@
        
     
      'Declare a variable to store the query to be excuted. Here we are using a hardcoded query.We can also use a stored procedure    
-    QueryProduct = "select SupplierName,  SupplierId from Suppliers order by SupplierName asc"    
+    QueryProduct = "select SupplierName,  SupplierId from Suppliers order by SupplierName desc"    
   
      'Execute the query   
     set rsCatagorytList = conn.Execute(QueryProduct)    
@@ -307,7 +307,7 @@ set rs=conn.execute("ViewPurchaseGrid3")
 			<li><a class="active" href="Home.asp">Home</a></li>
 			<li><a href="productText1.asp">Product</a></li>
 			<li><a href="Supplier.asp">Supplier</a></li>
-			<li><a href="purchase.asp">Purchase</a></li>
+			<li><a href="purchase1.asp">Purchase</a></li>
 	    </ul>
 	</div>
 	

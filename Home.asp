@@ -31,9 +31,9 @@
     <div>
 	   	<ul class="ul-item">
 			<li><a class="active" href="Home.asp">Home</a></li>
-			<li><a href="Product.asp">Product</a></li>
+			<li><a href="ProductText1.asp">Product</a></li>
 			<li><a href="Supplier.asp">Supplier</a></li>
-			<li><a href="purchase.asp">Purchase</a></li>
+			<li><a href="purchase1.asp">Purchase1</a></li>
 	    </ul>
 	</div>
 	<div>

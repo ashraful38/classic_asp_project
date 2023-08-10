@@ -114,7 +114,7 @@
 			<li><a class="active" href="Home.asp">Home</a></li>
 			<li><a href="productText1.asp">Product</a></li>
 			<li><a href="Supplier.asp">Supplier</a></li>
-			<li><a href="purchase.asp">Purchase</a></li>
+			<li><a href="purchase1.asp">Purchase</a></li>
 	    </ul>
 	</div>
 	<div>
